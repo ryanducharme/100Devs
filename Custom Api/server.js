@@ -1,32 +1,42 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { env } = require('process');
-const MongoClient = require('mongodb').MongoClient;
+const path = require('path');
 const app = express();
 
-app.set('view engine', 'ejs')
-
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
-app.use(express.static('public'))
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.listen(env.process.PORT || 3000, function () {
+app.listen(3000, function () {
   console.log('listening on 3000');
 });
 
-app.get('/quotes', (req, res) => {
-
+app.get('/', (req, res) => {
+  res.redirect('index.html');
 });
 
-app.put('/quotes', (req, res) => {
-
-})
-
-app.post('/quotes', (req, res) => {
-
+app.get('/api/apple', (req, res) => {
+  res.send(JSON.parse(
+    '{"name": "Apple", "calories": 95, "serving_size_g": 182, "source": "Apple Tree"}'))
 });
 
-app.delete('/quotes', (req, res) => {
+app.get('/api/watermelon', (req, res) => {
+  res.send(JSON.parse(
+    '{"name": "Watermelon", "calories": 85, "serving_size_g": 280, "source": "Flowering Plant"}'))
+});
 
-})
+app.get('/api/orange', (req, res) => {
+  res.send(JSON.parse(
+    '{"name": "Orange", "calories": 45, "serving_size_g": 96, "source": "Orange Tree"}'))
+});
+
+app.get('/api/strawberry', (req, res) => {
+  res.send(JSON.parse(
+    '{"name": "Strawberry", "calories": 33, "serving_size_g": 100, "source": "Flowering Plant"}'))
+});
+
+app.get('/api/mango', (req, res) => {
+  res.send(JSON.parse(
+    '{"name": "Mango", "calories": 201, "serving_size_g": 336, "source": "Mango Tree"}'))
+});
